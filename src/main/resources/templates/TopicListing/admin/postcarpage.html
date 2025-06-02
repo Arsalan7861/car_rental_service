@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Post Car</title>
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/css/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{/css/templatemo-topic-listing.css}" rel="stylesheet">
+  <link th:href="@{/css/navbar.css}" rel="stylesheet">
+  <style>
+    .container.mt-5{
+      padding-top: 100px;
+    }
+    .form-container {
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .upload-preview {
+      max-height: 200px;
+      margin-bottom: 15px;
+    }
+    .form-title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" th:href="@{/admin/dashboard}">
+      <i class="bi-back"></i>
+      <span>Admin Dashboard</span>
+    </a>
+
+    <div class="d-lg-none ms-auto me-4">
+      <a th:href="@{/admin/dashboard}" class="navbar-icon bi-person smoothscroll"></a>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-lg-5 me-lg-auto">
+        <li class="nav-item">
+          <a class="nav-link click-scroll" th:href="@{/admin/dashboard}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link click-scroll" th:href="@{/admin/postcarpage}" style="background-color: #0288d1;">Post Car</a> <!-- Blue -->
+        </li>
+        <li class="nav-item">
+          <a class="nav-link click-scroll" th:href="@{/admin/bookings}" style="background-color: #a4133c;">Bookings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link click-scroll" th:href="@{/admin/searchpage}" style="background-color: #507dbc;">Search</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link click-scroll" th:href="@{/auth/loginpage}" style="background-color: #81c784;">Logout</a> <!-- Light green -->
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+          <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+            <li><a class="dropdown-item" th:href="@{/admin/dashboard}">Topics Listing</a></li>
+            <li><a class="dropdown-item" th:href="@{/admin/dashboard}">Contact Form</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="d-none d-lg-block">
+        <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<main class="container mt-5">
+  <div class="form-container">
+    <h2 class="form-title">Post Car</h2>
+
+    <form th:action="@{/admin/postcar}" th:object="${car}" method="post" enctype="multipart/form-data">
+      <!-- Image Upload and Preview -->
+      <div class="mb-3 text-center">
+        <img id="imagePreview" class="upload-preview" src="#" alt="Image Preview" style="display: none; max-width: 200px;">
+        <input class="form-control" type="file" name="image" id="image" accept="image/*" onchange="previewImage(event)">
+      </div>
+
+      <!-- Brand -->
+      <div class="mb-3">
+        <label>Brand</label>
+        <select class="form-select" th:field="*{brand}">
+          <option th:each="brand : ${listOfBrands}" th:value="${brand}" th:text="${brand}">Brand</option>
+        </select>
+      </div>
+
+      <!-- Name -->
+      <div class="mb-3">
+        <label>Name</label>
+        <input class="form-control" type="text" th:field="*{name}" placeholder="Car Name">
+      </div>
+
+      <!-- Type -->
+      <div class="mb-3">
+        <label>Type</label>
+        <select class="form-select" th:field="*{type}">
+          <option th:each="type : ${listOfType}" th:value="${type}" th:text="${type}">Type</option>
+        </select>
+      </div>
+
+      <!-- Transmission -->
+      <div class="mb-3">
+        <label>Transmission</label>
+        <select class="form-select" th:field="*{transmission}">
+          <option th:each="trans : ${listOfTransmission}" th:value="${trans}" th:text="${trans}">Transmission</option>
+        </select>
+      </div>
+
+      <!-- Color -->
+      <div class="mb-3">
+        <label>Color</label>
+        <select class="form-select" th:field="*{color}">
+          <option th:each="color : ${listOfColor}" th:value="${color}" th:text="${color}">Color</option>
+        </select>
+      </div>
+
+      <!-- Year -->
+      <div class="mb-3">
+        <label>Model Year</label>
+        <input class="form-control" type="number" th:field="*{year}" placeholder="2023">
+      </div>
+
+      <!-- Price -->
+      <div class="mb-3">
+        <label>Price</label>
+        <input class="form-control" type="number" th:field="*{price}" placeholder="e.g. 50000">
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <label>Description</label>
+        <textarea class="form-control" rows="3" th:field="*{description}"></textarea>
+      </div>
+
+      <!-- Submit -->
+      <div class="text-center">
+        <button type="submit" class="btn custom-btn">Post Car</button>
+      </div>
+    </form>
+
+    <script>
+      function previewImage(event) {
+        const image = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+          const imagePreview = document.getElementById('imagePreview');
+          imagePreview.src = e.target.result;
+          imagePreview.style.display = 'block';
+        };
+
+        reader.readAsDataURL(image);
+      }
+    </script>
+
+  </div>
+
+  <script th:src="@{/js/jquery.min.js}"></script>
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/js/jquery.sticky.js}"></script>
+  <script th:src="@{/js/click-scroll.js}"></script>
+  <script th:src="@{/js/custom.js}"></script>
+</main>
+
+</body>
+</html>

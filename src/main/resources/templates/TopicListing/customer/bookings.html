@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Bookings</title>
+    <link th:href="@{/css/navbarcus.css}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/css/templatemo-topic-listing.css}" rel="stylesheet">
+
+    <link th:href="@{/css/navbarcus.css}" rel="stylesheet"> <!-- your custom navbar css, if you still need it -->
+
+    <style>
+        .page-content {
+            padding-top: 100px;
+        }
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        th {
+            background-color: #f0f5ff;
+            color: #003795;
+            font-weight: bold;
+        }
+        .status-approved {
+            color: green;
+            font-weight: bold;
+        }
+        .status-rejected {
+            color: red;
+            font-weight: bold;
+        }
+        .status-pending {
+            color: orange;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/customer/dashboard}">
+            <i class="bi-back"></i>
+            <span>Customer Dashboard</span>
+        </a>
+
+        <div class="d-lg-none ms-auto me-4">
+            <a th:href="@{/customer/dashboard}" class="navbar-icon bi-person smoothscroll"></a>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" th:href="@{/customer/dashboard}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" th:href="@{/customer/bookings}" style="background-color: #0288d1;">My Bookings</a> <!-- Blue -->
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" th:href="@{/customer/searchpage}" style="background-color: #82217b;">Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" th:href="@{/auth/loginpage}" style="background-color: #81c784;">Logout</a> <!-- Light green -->
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+                    <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                        <li><a class="dropdown-item" th:href="@{/customer/dashboard}">Topics Listing</a></li>
+                        <li><a class="dropdown-item" th:href="@{/customer/dashboard}">Contact Form</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="d-none d-lg-block">
+                <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<div class="page-content">
+    <h2 style="text-align: center; color: #f72585">My Bookings</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Booking ID</th>
+            <th>Brand</th>
+            <th>Car</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Days</th>
+            <th>Price</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="booking : ${bookings}">
+            <td th:text="${booking.id}"></td>
+            <td th:text="${booking.car.brand}"></td>
+            <td th:text="${booking.car.name}"></td>
+            <td th:text="${#temporals.format(booking.fromDate, 'MMM d, yyyy')}"></td>
+            <td th:text="${#temporals.format(booking.toDate, 'MMM d, yyyy')}"></td>
+            <td th:text="${booking.days}"></td>
+            <td th:text="${booking.price} + ' $'"></td>
+            <td>
+               <span th:text="${booking.bookCarStatus}"
+                     th:classappend="${booking.bookCarStatus.name() == 'APPROVED'} ? ' status-approved' :
+                      (${booking.bookCarStatus.name() == 'REJECTED'} ? ' status-rejected' :
+                      (${booking.bookCarStatus.name() == 'PENDING'} ? ' status-pending' : ''))">
+               </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/jquery.sticky.js}"></script>
+<script th:src="@{/js/click-scroll.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+
+</body>
+</html>

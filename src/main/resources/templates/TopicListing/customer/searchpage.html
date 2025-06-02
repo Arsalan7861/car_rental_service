@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Search Cars</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link th:href="@{/css/navbarcus.css}" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/css/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{/css/templatemo-topic-listing.css}" rel="stylesheet">
+
+  <link th:href="@{/css/navbarcus.css}" rel="stylesheet"> <!-- your custom navbar css, if you still need it -->
+
+  <style>
+    .inner-content {
+      padding: 100px;
+    }
+    .dashboard-filter {
+      margin-bottom: 20px;
+    }
+    .filter-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: flex-end;
+    }
+    .filter-fields-width {
+      flex: 1;
+      min-width: 200px;
+    }
+    .search-button {
+      margin-top: 24px;
+    }
+    .filterBtn {
+      width: 100%;
+    }
+    .profile {
+      height: 130px;
+      width: 220px;
+      border-radius: 10px;
+    }
+    .car-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" th:href="@{/customer/dashboard}">
+      <i class="bi-back"></i>
+      <span>Customer Dashboard</span>
+    </a>
+
+    <div class="d-lg-none ms-auto me-4">
+      <a th:href="@{/customer/dashboard}" class="navbar-icon bi-person smoothscroll"></a>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-lg-5 me-lg-auto">
+        <li class="nav-item">
+          <a class="nav-link click-scroll" th:href="@{/customer/dashboard}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link click-scroll" th:href="@{/customer/bookings}" style="background-color: #0288d1;">My Bookings</a> <!-- Blue -->
+        </li>
+        <li class="nav-item">
+          <a class="nav-link click-scroll" th:href="@{/customer/searchpage}" style="background-color: #82217b;">Search</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link click-scroll" th:href="@{/auth/loginpage}" style="background-color: #81c784;">Logout</a> <!-- Light green -->
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+          <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+            <li><a class="dropdown-item" th:href="@{/customer/dashboard}">Topics Listing</a></li>
+            <li><a class="dropdown-item" th:href="@{/customer/dashboard}">Contact Form</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="d-none d-lg-block">
+        <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+
+<div class="inner-content">
+  <div class="dashboard-filter">
+    <form th:action="@{/customer/search}" method="post" th:object="${searchCarDto}">
+      <div class="filter-grid">
+        <div class="filter-select-dropdown filter-fields-width">
+          <label for="brand" class="form-label">Brand</label>
+          <select class="form-select" id="brand" th:field="*{brand}">
+            <option value="">Select a Brand</option>
+            <option th:each="brand : ${listOfBrands}"
+                    th:value="${brand}"
+                    th:text="${brand}"></option>
+          </select>
+        </div>
+
+        <div class="filter-select-dropdown filter-fields-width">
+          <label for="type" class="form-label">Type</label>
+          <select class="form-select" id="type" th:field="*{type}">
+            <option value="">Select a Type</option>
+            <option th:each="type : ${listOfType}"
+                    th:value="${type}"
+                    th:text="${type}"></option>
+          </select>
+        </div>
+
+        <div class="filter-select-dropdown filter-fields-width">
+          <label for="color" class="form-label">Color</label>
+          <select class="form-select" id="color" th:field="*{color}">
+            <option value="">Select a Color</option>
+            <option th:each="color : ${listOfColor}"
+                    th:value="${color}"
+                    th:text="${color}"></option>
+          </select>
+        </div>
+
+        <div class="filter-select-dropdown filter-fields-width">
+          <label for="transmission" class="form-label">Transmission</label>
+          <select class="form-select" id="transmission" th:field="*{transmission}">
+            <option value="">Select a Transmission</option>
+            <option th:each="transmission : ${listOfTransmission}"
+                    th:value="${transmission}"
+                    th:text="${transmission}"></option>
+          </select>
+        </div>
+
+        <div class="search-button">
+          <button type="submit" class="btn btn-primary filterBtn">Search Car</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div style="background-color: #F6F6F6; display: flex; justify-content: center; padding: 20px;">
+  <div style="max-width: 800px; width: 100%;">
+    <!-- Check if carDtoList exists and has carDtos -->
+    <div th:if="${carDtoList != null and carDtoList.carDtos != null and not #lists.isEmpty(carDtoList.carDtos)}">
+      <div class="car-card" th:each="car : ${carDtoList.carDtos}">
+        <div class="row">
+          <div class="col-md-4">
+            <img class="profile" th:src="${car.imagePath}" alt="Car Image" />
+          </div>
+          <div class="col-md-8">
+            <h2 style="cursor: pointer; color: #105ee7;">
+              <span th:text="${car.brand} + ' - ' + ${car.name}"></span>
+            </h2>
+            <p th:text="${car.description}"></p>
+            <hr>
+            <h5>
+              Price: <b>$<span th:text="${car.price}"></span></b> -
+              Color: <b><span th:text="${car.color}"></span></b> -
+              Transmission: <b><span th:text="${car.transmission}"></span></b> -
+              Type: <b><span th:text="${car.type}"></span></b> -
+              Year: <b><span th:text="${car.year}"></span></b>
+            </h5>
+            <hr>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div th:if="${carDtoList == null or carDtoList.carDtos == null or #lists.isEmpty(carDtoList.carDtos)}"
+         class="alert alert-info">
+      No cars found matching your search criteria.
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/jquery.sticky.js}"></script>
+<script th:src="@{/js/click-scroll.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+
+</body>
+</html>

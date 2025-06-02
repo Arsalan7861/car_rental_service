@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Admin Dashboard</title>
+
+  <!-- CSS FILES -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+
+  <!-- Thymeleaf CSS links -->
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/css/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{/css/templatemo-topic-listing.css}" rel="stylesheet">
+
+
+  <style>
+    body {
+      background-color: #f0f8ff; /* Light blue background */
+    }
+    nav.navbar {
+      background-color: #005f73; /* Dark blue navbar */
+    }
+    .navbar-nav .nav-link {
+      color: white !important;
+      font-weight: 600;
+    }
+    .navbar-nav .nav-link:hover {
+      background-color: #0a9396; /* Light green on hover */
+      color: white !important;
+    }
+    .navbar-brand span {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+    }
+    .custom-block {
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .custom-btn {
+      background-color: #009900; /* Green button */
+      color: white;
+    }
+    .custom-btn:hover {
+      background-color: #007700; /* Darker green on hover */
+    }
+    .hero-section {
+      background-color: #ffdf00; /* Yellow background for hero section */
+      padding: 50px 0;
+    }
+    .footer {
+      background-color: #333;
+      color: white;
+      padding: 40px 0;
+    }
+    .custom-alert {
+      position: fixed;
+      top: 70px; /* adjust for your navbar */
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1050;
+      opacity: 1;
+      transition: opacity 1s ease-in-out;
+    }
+    .custom-alert.fade-out {
+      opacity: 0;
+    }
+  </style>
+</head>
+
+<body id="top">
+<main>
+
+  <div th:if="${successMessage}"
+       id="flashMessage"
+       class="alert alert-success text-center mx-auto fade show custom-alert"
+       role="alert"
+       style="max-width: 500px; margin-top: 10px;">
+    <span th:text="${successMessage}"></span>
+  </div>
+
+  <div th:if="${errorMessage}"
+       class="alert alert-danger text-center mx-auto fade show custom-alert"
+       role="alert"
+       style="max-width: 500px; margin-top: 10px;">
+    <span th:text="${errorMessage}"></span>
+  </div>
+
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" th:href="@{/admin/dashboard}">
+      <i class="bi-back"></i>
+        <span>Admin Dashboard</span>
+      </a>
+
+      <div class="d-lg-none ms-auto me-4">
+        <a th:href="@{/admin/dashboard}" class="navbar-icon bi-person smoothscroll"></a>
+      </div>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-lg-5 me-lg-auto">
+          <li class="nav-item">
+            <a class="nav-link click-scroll" th:href="@{/admin/dashboard}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link click-scroll" th:href="@{/admin/postcarpage}" style="background-color: #0288d1;">Post Car</a> <!-- Blue -->
+          </li>
+          <li class="nav-item">
+            <a class="nav-link click-scroll" th:href="@{/admin/bookings}" style="background-color: #a4133c;">Bookings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link click-scroll" th:href="@{/admin/searchpage}" style="background-color: #507dbc;">Search</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link click-scroll" th:href="@{/auth/loginpage}" style="background-color: #81c784;">Logout</a> <!-- Light green -->
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+              <li><a class="dropdown-item" th:href="@{/admin/dashboard}">Topics Listing</a></li>
+              <li><a class="dropdown-item" th:href="@{/admin/dashboard}">Contact Form</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <div class="d-none d-lg-block">
+          <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-section d-flex justify-content-center align-items-center" id="section_1" style="padding-top: 100px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-12 mx-auto">
+          <h1 class="text-white text-center">Systems. Teams. Goals</h1>
+          <h6 class="text-center">Platform for creatives around the world</h6>
+
+          <form method="get" class="custom-form mt-4 pt-2 mb-lg-0 mb-5" role="search">
+            <div class="input-group input-group-lg">
+              <span class="input-group-text bi-search" id="basic-addon1"></span>
+              <input name="keyword" type="text" class="form-control" id="keyword"
+                     value="Reliable, Secure, Efficient, Responsive ..." aria-label="Search" readonly tabindex="-1"
+                     style="border: none; background: transparent; font-weight: bold; padding-top: 25px; pointer-events: none;">
+              <button type="submit" class="form-control">Cars</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="container my-5">
+    <h2 class="mb-4 text-center">Posted Cars</h2>
+
+    <div class="row g-4">
+      <div class="col-md-6" th:each="car : ${cars}">
+        <div class="custom-block">
+          <img th:src="${car.imagePath}" alt="Car Image"
+               style="height: 230px; width: 100%; border-radius: 10px; object-fit: cover;">
+
+          <h4 class="mt-3 text-primary" th:text="${car.brand} + ' - ' + ${car.name}"></h4>
+          <p th:text="${car.description}"></p>
+
+          <hr>
+          <h6>
+            Price: <b th:text="'$' + ${car.price}"></b> -
+            Color: <b th:text="${car.color}"></b> -
+            Transmission: <b th:text="${car.transmission}"></b> -
+            Type: <b th:text="${car.type}"></b> -
+            Year: <b th:text="${car.year}"></b>
+          </h6>
+          <hr>
+
+          <div class="d-flex justify-content-end">
+            <a th:href="@{'/admin/car/' + ${car.id}}" class="btn btn-primary btn-sm me-2">Update</a>
+            <form th:action="@{'/admin/deletecar/' + ${car.id}}" method="post"
+                  th:onsubmit="return confirm('Are you sure you want to delete this car?')">
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer site-footer section-padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-12 mb-4 pb-2">
+            <i class="bi-back"></i>
+            <span>Topic</span>
+          </a>
+        </div>
+        <!-- Add footer content as per your requirement -->
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT FILES -->
+  <script th:src="@{/js/jquery.min.js}"></script>
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/js/jquery.sticky.js}"></script>
+  <script th:src="@{/js/click-scroll.js}"></script>
+  <script th:src="@{/js/custom.js}"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const flashMessage = document.getElementById("flashMessage");
+      if (flashMessage) {
+        setTimeout(() => {
+          flashMessage.classList.add("fade-out");
+          setTimeout(() => {
+            flashMessage.remove();
+          }, 1000); // wait for fade-out animation
+        }, 4000); // show for 4 seconds
+      }
+    });
+  </script>
+
+</main>
+</body>
+</html>

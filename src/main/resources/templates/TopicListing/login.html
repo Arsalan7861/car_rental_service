@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Topic Listing Contact Page</title>
+
+  <!-- CSS FILES -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+
+  <!-- Thymeleaf CSS links -->
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/css/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{/css/templatemo-topic-listing.css}" rel="stylesheet">
+
+  <style>
+    .registration-table {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    .registration-table td {
+      padding: 8px;
+    }
+    .registration-table input[type="text"],
+    .registration-table input[type="email"],
+    .registration-table input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body class="topics-listing-page" id="top">
+<main>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" th:href="@{/auth/loginpage}">
+        <i class="bi-back"></i>
+        <span>GoAuto</span>
+      </a>
+
+      <div class="d-lg-none ms-auto me-4">
+        <a th:href="@{/auth/loginpage}" class="navbar-icon bi-person smoothscroll"></a>
+      </div>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-lg-5 me-lg-auto">
+          <li class="nav-item">
+            <a class="nav-link click-scroll" th:href="@{/auth/loginpage}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link click-scroll" th:href="@{/auth/signup}">Sign Up</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#section_5" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+              <li><a class="dropdown-item" th:href="@{/auth/loginpage}">Topics Listing</a></li>
+              <li><a class="dropdown-item active" th:href="@{/auth/loginpage}">Login Form</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <div class="d-none d-lg-block">
+          <a th:href="@{/auth/signup}" class="btn btn-primary">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <header class="site-header d-flex flex-column justify-content-center align-items-center">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-5 col-12">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a th:href="@{/auth/loginpage}">Homepage</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Login Form</li>
+            </ol>
+          </nav>
+          <h2 class="text-white">Login Form</h2>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="section-padding section-bg">
+    <div class="container">
+      <div class="row justify-content-center mb-5">
+        <div class="col-lg-8 col-12">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h1 class="text-center mb-4">User Login</h1>
+              <form role="form" method="post" th:action="@{/auth/login}">
+                <table class="login-table">
+                  <tr>
+                    <td><label>Email</label></td>
+                    <td><input type="email" name="username" required class="form-control"></td>
+                  </tr>
+                  <tr>
+                    <td><label>Password</label></td>
+                    <td><input type="password" name="password" required class="form-control"></td>
+                  </tr>
+                </table>
+                <div class="text-center mt-3">
+                  <button type="submit" class="btn btn-primary">Login</button>
+                  <p class="mt-3">Don't have an account? <a th:href="@{/auth/signup}">Sign up here</a></p>
+                </div>
+                <div th:if="${param.error}" class="alert alert-danger mt-3">
+                  Invalid email or password. Please try again.
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer remains unchanged -->
+<footer class="site-footer section-padding">
+  <!-- ... existing footer content ... -->
+</footer>
+
+<!-- Thymeleaf JS links -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/jquery.sticky.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+</body>
+</html>

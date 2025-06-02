@@ -1,0 +1,42 @@
+body {
+    background-color: #f0f8ff; /* Light blue background */
+}
+nav.navbar {
+    background-color: #005f73; /* Dark blue navbar */
+}
+.navbar-nav .nav-link {
+    color: white !important;
+    font-weight: 600;
+}
+.navbar-nav .nav-link:hover {
+    background-color: #0a9396; /* Light green on hover */
+    color: white !important;
+}
+.navbar-brand span {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+}
+.custom-block {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.custom-btn {
+    background-color: #009900; /* Green button */
+    color: white;
+}
+.custom-btn:hover {
+    background-color: #007700; /* Darker green on hover */
+}
+.hero-section {
+    background-color: #ffdf00; /* Yellow background for hero section */
+    padding: 50px 0;
+}
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 40px 0;
+}

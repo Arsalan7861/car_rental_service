@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookings Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/navbar.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/css/templatemo-topic-listing.css}" rel="stylesheet">
+    <style>
+        .bookings-container {
+            padding-top: 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .table-header {
+            background-color: #80ed99;
+            color: white;
+        }
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+        .status-approved {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status-rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .action-btn {
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin: 2px;
+            display: inline-block;
+        }
+        .approve-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+        .reject-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+        }
+        .price-cell {
+            font-weight: 500;
+        }
+        .table-responsive {
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/admin/dashboard}">
+            <i class="bi-back"></i>
+            <span>Admin Dashboard</span>
+        </a>
+
+        <div class="d-lg-none ms-auto me-4">
+            <a th:href="@{/admin/dashboard}" class="navbar-icon bi-person smoothscroll"></a>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" th:href="@{/admin/dashboard}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" th:href="@{/admin/postcarpage}" style="background-color: #0288d1;">Post Car</a> <!-- Blue -->
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" th:href="@{/admin/bookings}" style="background-color: #a4133c;">Bookings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" th:href="@{/admin/searchpage}" style="background-color: #507dbc;">Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" th:href="@{/auth/loginpage}" style="background-color: #81c784;">Logout</a> <!-- Light green -->
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+                    <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                        <li><a class="dropdown-item" th:href="@{/admin/dashboard}">Topics Listing</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/dashboard}">Contact Form</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="d-none d-lg-block">
+                <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="bookings-container">
+    <h2 class="mb-4" style="color: #2196f3;">All Bookings</h2>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-header">
+            <tr>
+                <th>Booking_Id</th>
+                <th>Car_Id</th>
+                <th>Email</th>
+                <th>From Date</th>
+                <th>To Date</th>
+                <th>Days</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="booking : ${bookings}">
+                <td th:text="${booking.id}"></td>
+                <td th:text="${booking.carId}"></td>
+                <td th:text="${booking.email}"></td>
+                <td th:text="${booking.fromDate}"></td>
+                <td th:text="${booking.toDate}"></td>
+                <td th:text="${booking.days}"></td>
+                <td class="price-cell" th:text="${booking.price}"></td>
+                <td>
+                    <span class="status-badge status-approved"
+                          th:if="${booking.bookCarStatus == T(com.spring_project.car_rental_service.Enums.BookCarStatus).APPROVED}">
+                        Approved
+                    </span>
+                    <span class="status-badge status-rejected"
+                          th:if="${booking.bookCarStatus == T(com.spring_project.car_rental_service.Enums.BookCarStatus).REJECTED}">
+                        Rejected
+                    </span>
+                    <span class="status-badge status-pending"
+                          th:if="${booking.bookCarStatus == T(com.spring_project.car_rental_service.Enums.BookCarStatus).PENDING}">
+                        Pending
+                    </span>
+                </td>
+                <td>
+                    <div th:if="${booking.bookCarStatus == T(com.spring_project.car_rental_service.Enums.BookCarStatus).PENDING}">
+                        <form th:action="@{/admin/bookings/approve/{id}(id=${booking.id})}" method="post" style="display:inline;">
+                            <input type="hidden" name="id" th:value="${booking.id}">
+                            <button type="submit" class="action-btn approve-btn">Approve</button>
+                        </form>
+                        <form th:action="@{/admin/bookings/reject/{id}(id=${booking.id})}" method="post" style="display:inline;">
+                            <input type="hidden" name="id" th:value="${booking.id}">
+                            <button type="submit" class="action-btn reject-btn">Reject</button>
+                        </form>
+                    </div>
+                    <span th:unless="${booking.bookCarStatus == 'PENDING'}">—</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/jquery.sticky.js}"></script>
+<script th:src="@{/js/click-scroll.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
